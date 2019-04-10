@@ -45,12 +45,13 @@ Los índices vegetacionales entre agosto 2018 a febrero 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs). Pronto serán
 actualizados.
 
-Un ejemplo, NDVI para el 23 de febrero:
+Un ejemplo, series de imágenes de NDVI.
 
 ``` r
 library(raster)
 #> Loading required package: sp
-ndvi <- stack('data/spatial/VIs/NDVI/_S2B2A_20190223_096_19HCB_NDVI_10.tif')
+list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
+ndvi <- stack(list)
 plot(ndvi)
 ```
 
