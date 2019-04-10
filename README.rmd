@@ -27,7 +27,7 @@ Agronomía UMayor 2019
 
 ## Reseña
 
-La praćtica de integración mediada (PIM) es una actividad parte de la malla de la carrera de Agronomía de la Universidad Mayor. En ésta PIM los estudiantes deben demostrar su capacidad para resolver alguna problemática relacionada a la agricultura.
+La praćtica de integración mediada (PIM) es una actividad parte de la malla de la carrera de Agronomía de la Universidad Mayor. En la PIM los estudiantes deben demostrar su capacidad para resolver alguna problemática relacionada a la agricultura.
 
 En esta PIM se está realizando el monitoreo de kiwis utilizando imágenes satelitales Sentinel-2 (A/B) además de drones. Para mas información sobre Sentinel-2 pincha [acá](https://es.wikipedia.org/wiki/Sentinel-2) o también [acá](https://sentinel.esa.int/web/sentinel/missions/sentinel-2).  El objetivo de este estudio es encontrar una relación entre la radiación reflejada por la vegetación en distintas longitudes de onda con contenido de agua en la hoja y con calidad de kiwis en la cosecha.
 

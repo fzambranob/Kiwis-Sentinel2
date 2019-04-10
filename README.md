@@ -12,8 +12,8 @@ Monitoreo Satelital de Kiwis con Sentinel-2 Agronomía UMayor 2019
 ## Reseña
 
 La praćtica de integración mediada (PIM) es una actividad parte de la
-malla de la carrera de Agronomía de la Universidad Mayor. En ésta PIM
-los estudiantes deben demostrar su capacidad para resolver alguna
+malla de la carrera de Agronomía de la Universidad Mayor. En la PIM los
+estudiantes deben demostrar su capacidad para resolver alguna
 problemática relacionada a la agricultura.
 
 En esta PIM se está realizando el monitoreo de kiwis utilizando imágenes
