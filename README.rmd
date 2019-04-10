@@ -31,9 +31,16 @@ La praćtica de integración mediada (PIM) es una actividad parte de la malla de
 
 En esta PIM se está realizando el monitoreo de kiwis utilizando imágenes satelitales Sentinel-2 (A/B) además de drones. Para mas información sobre Sentinel-2 pincha [acá](https://es.wikipedia.org/wiki/Sentinel-2) o también [acá](https://sentinel.esa.int/web/sentinel/missions/sentinel-2).  El objetivo de este estudio es encontrar una relación entre la radiación reflejada por la vegetación en distintas longitudes de onda con contenido de agua en la hoja y con calidad de kiwis en la cosecha.
 
-Para el procesamiento de los datos se está trabajando con el software [R](https://www.r-project.org/) en la IDE [RStudio](https://www.rstudio.com/). El procesamiento de las imágenes Sentinel-1 (descarga, corrección, transormación) se realiza con el paquete [`sen2R`](https://github.com/ranghetti/sen2r) desarrollado por Luigi Ranghetti and Lorenzo Busetto. Para eL procesamiento y análisis de los datos vectoriales ocupamos el paquete [`simple feature`](https://github.com/r-spatial/sf)[@Pebesma2018]. Los datos raster con el paquete [`raster`](https://cran.r-project.org/web/packages/raster/index.html)[@Hijmans2019], esperando pronto evolucionar a [STARS](https://cran.r-project.org/web/packages/RNetCDF/index.html)[@Pebesma2018b]. El análisis de datos con todos los paquetes incluidos en [tidyverse](https://www.tidyverse.org/)[@Wickham2017].
+Para el procesamiento de los datos se está trabajando con el software [R](https://www.r-project.org/) en la IDE [RStudio](https://www.rstudio.com/). El procesamiento de las imágenes Sentinel-2 (descarga, corrección, transormación) se realiza con el paquete [`sen2R`](https://github.com/ranghetti/sen2r) desarrollado por Luigi Ranghetti and Lorenzo Busetto. Para el procesamiento y análisis de los datos vectoriales ocupamos el paquete [`simple feature`](https://github.com/r-spatial/sf)[@Pebesma2018]. Los datos raster con el paquete [`raster`](https://cran.r-project.org/web/packages/raster/index.html)[@Hijmans2019], esperando pronto evolucionar a [STARS](https://cran.r-project.org/web/packages/RNetCDF/index.html)[@Pebesma2018b]. El análisis de datos con todos los paquetes incluidos en [tidyverse](https://www.tidyverse.org/)[@Wickham2017].
 
-[Acá](/R) compartimos los script de procesamiento, análisis y descarga.
+[Acá](/R) compartimos los script de procesamiento, análisis y descarga. Los índices vegetacionales entre agosto 2018 a febrero 2019 los puedes descarga en la carpeta [VIs](data/spatial/VIs). Pronto serán actualizados.
 
+Un ejemplo, NDVI para el 23 de febrero:
+
+```{r}
+library(raster)
+ndvi <- stack('data/spatial/VIs/NDVI/_S2B2A_20190223_096_19HCB_NDVI_10.tif')
+plot(ndvi)
+```
 
 Ranghetti, L.\ and Busetto, L.\ (`r strftime(Sys.Date(),"%Y")`). *sen2r: an R toolbox to find, download and preprocess Sentinel-2 data*. R package version `r packageVersion("sen2r")`. DOI: [10.5281/zenodo.1240384](https://dx.doi.org/10.5281/zenodo.1240384). URL: [http://sen2r.ranghetti.info](http://sen2r.ranghetti.info).

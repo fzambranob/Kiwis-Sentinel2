@@ -28,9 +28,9 @@ contenido de agua en la hoja y con calidad de kiwis en la cosecha.
 Para el procesamiento de los datos se está trabajando con el software
 [R](https://www.r-project.org/) en la IDE
 [RStudio](https://www.rstudio.com/). El procesamiento de las imágenes
-Sentinel-1 (descarga, corrección, transormación) se realiza con el
+Sentinel-2 (descarga, corrección, transormación) se realiza con el
 paquete [`sen2R`](https://github.com/ranghetti/sen2r) desarrollado por
-Luigi Ranghetti and Lorenzo Busetto. Para eL procesamiento y análisis de
+Luigi Ranghetti and Lorenzo Busetto. Para el procesamiento y análisis de
 los datos vectoriales ocupamos el paquete [`simple
 feature`](https://github.com/r-spatial/sf)(Pebesma 2018a). Los datos
 raster con el paquete
@@ -41,6 +41,20 @@ raster con el paquete
 [tidyverse](https://www.tidyverse.org/)(Wickham 2017).
 
 [Acá](/R) compartimos los script de procesamiento, análisis y descarga.
+Los índices vegetacionales entre agosto 2018 a febrero 2019 los puedes
+descarga en la carpeta [VIs](data/spatial/VIs). Pronto serán
+actualizados.
+
+Un ejemplo, NDVI para el 23 de febrero:
+
+``` r
+library(raster)
+#> Loading required package: sp
+ndvi <- stack('data/spatial/VIs/NDVI/_S2B2A_20190223_096_19HCB_NDVI_10.tif')
+plot(ndvi)
+```
+
+![](README-unnamed-chunk-2-1.png)<!-- -->
 
 Ranghetti, L. and Busetto, L. (2019). *sen2r: an R toolbox to find,
 download and preprocess Sentinel-2 data*. R package version 1.0.0. DOI:
