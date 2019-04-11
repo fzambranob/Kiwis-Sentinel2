@@ -44,15 +44,24 @@ raster con el paquete
 Los índices vegetacionales entre agosto 2018 a febrero 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs).
 
-Última actualización 2019-04-11
+Última actualización: 2019-04-11
 
 Un ejemplo, series de imágenes de NDVI.
 
 ``` r
 library(raster)
 #> Loading required package: sp
+library(lubridate)
+#> 
+#> Attaching package: 'lubridate'
+#> The following object is masked from 'package:base':
+#> 
+#>     date
 list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
-ndvi <- stack(list)
+ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
+new_list <- list[ind$ix]
+ndvi <- stack(new_list[(length(new_list)-15):length(new_list)])
+names(ndvi) <- ymd(ind$x[(length(new_list)-15):length(new_list)])
 plot(ndvi)
 ```
 

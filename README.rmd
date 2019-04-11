@@ -41,8 +41,12 @@ Un ejemplo, series de imágenes de NDVI.
 
 ```{r}
 library(raster)
+library(lubridate)
 list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
-ndvi <- stack(list)
+ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
+new_list <- list[ind$ix]
+ndvi <- stack(new_list[(length(new_list)-15):length(new_list)])
+names(ndvi) <- ymd(ind$x[(length(new_list)-15):length(new_list)])
 plot(ndvi)
 ```
 
