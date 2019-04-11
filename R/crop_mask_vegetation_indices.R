@@ -6,8 +6,8 @@ library(raster)
 library(sf)
 library(tidyverse)
 
-dir.data <- '/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/estres_hidrico_kiwis/data/spatial/vectorial/'
-in.vis <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/VIs/'
+dir.data <- 'data/spatial/vectorial/'
+in.vis <- 'data/rasters/Procesados/Sentinel2/VIs/'
 out.vis <- '/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/estres_hidrico_kiwis/data/spatial/VIs/'
 
 pol <- st_read(paste0(dir.data,'cuarteles_kiwis.gpkg'))

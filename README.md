@@ -42,8 +42,9 @@ raster con el paquete
 
 [Acá](/R) compartimos los script de procesamiento, análisis y descarga.
 Los índices vegetacionales entre agosto 2018 a febrero 2019 los puedes
-descarga en la carpeta [VIs](data/spatial/VIs). Pronto serán
-actualizados.
+descarga en la carpeta [VIs](data/spatial/VIs).
+
+Última actualización 2019-04-11
 
 Un ejemplo, series de imágenes de NDVI.
 
@@ -81,7 +82,7 @@ Spatial Vector Data.” *The R Journal*.
 
 <div id="ref-Pebesma2018b">
 
-———. 2018b. *Stars: Scalable, Spatiotemporal Tidy Arrays*.
+———. 2018b. *stars: Scalable, Spatiotemporal Tidy Arrays*.
 <https://CRAN.R-project.org/package=stars>.
 
 </div>

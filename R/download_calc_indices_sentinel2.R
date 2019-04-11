@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 # script to download sentinel2 data
 # by Francisco Zambrano (frzambra@gmail.com)
 # January 2019
@@ -8,7 +9,7 @@ library(tidyverse)
 library(lubridate)
 
 # where is the spatial polygon
-dir.data <- 'data/spatial/vectorial/'
+dir.data <- '../data/spatial/vectorial/'
 dir.sent <- '/mnt/discoHemera4TB2/data/rasters/raw/Sentinel2/OHiggins/2A/'
 out.tiff <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/GTiff/'
 out.vis <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/VIs/'
@@ -37,12 +38,12 @@ list <- s2_list(
 s2_download(list,
             outdir=dir.sent)
 
-#in case for level 1LC
-paste0(dir.sent,list) %>%  
-  map(function(x) sen2cor(x,outdir=out.tiff))
+# #in case for level 1LC
+# paste0(dir.sent,list) %>%
+#   map(function(x) sen2cor(x,outdir=out.tiff))
 
 #for level 2A
-paste0(dir.sent,names(list)) %>% 
+paste0(dir.sent,names(list)) %>%
   map(function(x) s2_translate(x,outdir=out.tiff,format="GTiff"))
 
 #Calculating vegetation indices from Sentinel2 data
