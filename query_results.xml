@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns="http://www.w3.org/2005/Atom">
+<title>Sentinels Scientific Data Hub search results for: footprint:"Intersects(POLYGON((-70.976798 -34.615181, -70.973216 -34.615181, -70.973216 -34.611436, -70.976798 -34.611436,-70.976798 -34.615181)))" filename:S2* ingestiondate:[2015-06-23T00:00:00.000Z TO NOW] producttype:S2MSI2A* </title>
+<subtitle>Displaying 25 results. Request done in 3.161 seconds.</subtitle>
+<updated>2019-04-15T21:47:21.096Z</updated>
+<author>
+<name>Sentinels Scientific Data Hub</name>
+</author>
+<id>https://scihub.copernicus.eu/apihub/search?q=footprint:"Intersects(POLYGON((-70.976798 -34.615181, -70.973216 -34.615181, -70.973216 -34.611436, -70.976798 -34.611436,-70.976798 -34.615181)))" filename:S2* ingestiondate:[2015-06-23T00:00:00.000Z TO NOW] producttype:S2MSI2A* </id>
+<opensearch:totalResults>25</opensearch:totalResults>
+<opensearch:startIndex>100</opensearch:startIndex>
+<opensearch:itemsPerPage>100</opensearch:itemsPerPage>
+<opensearch:Query role="request" searchTerms="footprint:&quot;Intersects(POLYGON((-70.976798 -34.615181, -70.973216 -34.615181, -70.973216 -34.611436, -70.976798 -34.611436,-70.976798 -34.615181)))&quot; filename:S2* ingestiondate:[2015-06-23T00:00:00.000Z TO NOW] producttype:S2MSI2A* " startPage="1"/>
+<link rel="self" type="application/atom+xml" href="https://scihub.copernicus.eu/apihub/search?q=footprint:&quot;Intersects(POLYGON((-70.976798 -34.615181, -70.973216 -34.615181, -70.973216 -34.611436, -70.976798 -34.611436,-70.976798 -34.615181)))&quot; filename:S2* ingestiondate:[2015-06-23T00:00:00.000Z TO NOW] producttype:S2MSI2A* &amp;start=100&amp;rows=100"/>
+<link rel="first" type="application/atom+xml" href="https://scihub.copernicus.eu/apihub/search?q=footprint:&quot;Intersects(POLYGON((-70.976798 -34.615181, -70.973216 -34.615181, -70.973216 -34.611436, -70.976798 -34.611436,-70.976798 -34.615181)))&quot; filename:S2* ingestiondate:[2015-06-23T00:00:00.000Z TO NOW] producttype:S2MSI2A* &amp;start=0&amp;rows=100"/>
+<link rel="last" type="application/atom+xml" href="https://scihub.copernicus.eu/apihub/search?q=footprint:&quot;Intersects(POLYGON((-70.976798 -34.615181, -70.973216 -34.615181, -70.973216 -34.611436, -70.976798 -34.611436,-70.976798 -34.615181)))&quot; filename:S2* ingestiondate:[2015-06-23T00:00:00.000Z TO NOW] producttype:S2MSI2A* &amp;start=24&amp;rows=100"/>
+<link rel="search" type="application/opensearchdescription+xml" href="opensearch_description.xml"/>
+</feed>

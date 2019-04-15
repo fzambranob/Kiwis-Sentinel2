@@ -3,7 +3,7 @@
 # April 2019
 
 updateVIs <- function(dir_tiffs,dir_vis,indices){
-  require(purrr)
+  require(tidyverse)
   
   indices %>%  
     map(function(vis){

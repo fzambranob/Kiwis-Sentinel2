@@ -35,34 +35,51 @@ los datos vectoriales ocupamos el paquete [`simple
 feature`](https://github.com/r-spatial/sf)(Pebesma 2018a). Los datos
 raster con el paquete
 [`raster`](https://cran.r-project.org/web/packages/raster/index.html)(Hijmans
-2019), esperando pronto evolucionar a
-[STARS](https://cran.r-project.org/web/packages/RNetCDF/index.html)(Pebesma
-2018b). El análisis de datos con todos los paquetes incluidos en
+2019), en proceso de evolución a
+[stars](https://github.com/r-spatial/stars)(Pebesma 2018b). El análisis
+de datos con todos los paquetes incluidos en
 [tidyverse](https://www.tidyverse.org/)(Wickham 2017).
 
 [Acá](/R) compartimos los script de procesamiento, análisis y descarga.
-Los índices vegetacionales entre agosto 2018 a febrero 2019 los puedes
+Los índices vegetacionales entre agosto 2018 a abril 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs).
 
-Última actualización: 2019-04-11
+Última actualización: 2019-04-15
 
 Un ejemplo, series de imágenes de NDVI.
 
 ``` r
-library(raster)
-#> Loading required package: sp
+library(stars)
+#> Loading required package: abind
+#> Loading required package: sf
+#> Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
 library(lubridate)
-#> 
-#> Attaching package: 'lubridate'
-#> The following object is masked from 'package:base':
-#> 
-#>     date
+library(viridis)
+#> Loading required package: viridisLite
+library(ggplot2)
+
 list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
 ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
 new_list <- list[ind$ix]
-ndvi <- stack(new_list[(length(new_list)-15):length(new_list)])
-names(ndvi) <- ymd(ind$x[(length(new_list)-15):length(new_list)])
-plot(ndvi)
+dates <- ymd(ind$x[(length(new_list)-17):length(new_list)])
+ndvi <- read_stars(new_list[(length(new_list)-17):length(new_list)],along='time')
+ndvi <- st_set_dimensions(ndvi,'time',values= dates)
+names(ndvi) <- 'NDVI'
+pol <- st_read('data/spatial/vectorial/cuarteles_kiwis.gpkg')
+#> Reading layer `cuarteles_kiwis' from data source `/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/data/spatial/vectorial/cuarteles_kiwis.gpkg' using driver `GPKG'
+#> Simple feature collection with 1 feature and 2 fields
+#> geometry type:  POLYGON
+#> dimension:      XY
+#> bbox:           xmin: -70.9768 ymin: -34.61518 xmax: -70.97322 ymax: -34.61144
+#> epsg (SRID):    4326
+#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
+
+ggplot() + geom_stars(data=ndvi[pol]*10e-5) +
+  coord_equal() +
+  facet_wrap(~time,nrow=3) +
+  theme_void() +
+  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=0.5,na.value="transparent")
 ```
 
 ![](README-unnamed-chunk-2-1.png)<!-- -->

@@ -13,10 +13,11 @@ updateS2Tiff <- function(dir_raw,dir_tiff){
   dates_tiff <- regmatches(list_tiff,regexpr("[0-9]{8}",list_tiff))
   ids <- which(is.na(match(dates_raw,dates_tiff)))
   
-  paste0(dir_raw,list_raw[ids]) %>%
-    map(function(x) s2_translate(x,outdir=out.tiff,format="GTiff"))
+  if (length(ids)!=0){
+    paste0(dir_raw,list_raw[ids]) %>%
+      map(function(x) s2_translate(x,outdir=dir_tiff,format="GTiff"))
+  }
   
 }
 
-dir_raw <- '/mnt/discoHemera4TB2/data/rasters/raw/Sentinel2/OHiggins/2A/'
-dir_tiff <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/GTiff/'
+

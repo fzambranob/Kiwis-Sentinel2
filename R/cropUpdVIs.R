@@ -5,7 +5,6 @@
 cropUpdVIs <- function(pol,dir_vis,dir_cvis,indices){
   
   require(purrr)
-  
   res_vis <- summIndices(indices,dir_vis)
   res_cvis <- summIndices(indices,dir_cvis)
   
@@ -28,7 +27,7 @@ cropUpdVIs <- function(pol,dir_vis,dir_cvis,indices){
       vi <- subset(vi,sort(substr(names(vi),7,14),index.return=TRUE)$ix)
       viC <- crop(vi,pol)
       viM <- mask(viC,pol)
-      writeRaster(viM,paste0(dir_cvis,index,'/'),bylayer=TRUE,suffix='names',format='GTiff')
+      writeRaster(viM,paste0(dir_cvis,index,'/',names(viM)),bylayer=TRUE,suffix='names',format='GTiff')
     })
 }
   
