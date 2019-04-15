@@ -61,8 +61,8 @@ library(ggplot2)
 list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
 ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
 new_list <- list[ind$ix]
-dates <- ymd(ind$x[(length(new_list)-17):length(new_list)])
-ndvi <- read_stars(new_list[(length(new_list)-17):length(new_list)],along='time')
+dates <- ymd(ind$x)
+ndvi <- read_stars(new_list,along='time')
 ndvi <- st_set_dimensions(ndvi,'time',values= dates)
 names(ndvi) <- 'NDVI'
 pol <- st_read('data/spatial/vectorial/cuarteles_kiwis.gpkg')
@@ -77,12 +77,30 @@ pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_def
 
 ggplot() + geom_stars(data=ndvi[pol]*10e-5) +
   coord_equal() +
-  facet_wrap(~time,nrow=3) +
+  facet_wrap(~time,ncol=10) +
   theme_void() +
-  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=0.5,na.value="transparent")
+  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=0.5,na.value="transparent") +
+  theme(strip.text = element_text(size=5),
+        legend.position = 'bottom')
 ```
 
 ![](README-unnamed-chunk-2-1.png)<!-- -->
+
+Serie de tiempo de valores de NDVI promedio en el
+cuartel
+
+``` r
+data <- data.frame(dates=as.POSIXct(dates),NDVI=st_apply(ndvi[pol],3,FUN='mean',na.rm=TRUE)$NDVI)
+
+ggplot(data,aes(dates,NDVI*10e-5)) + 
+  geom_point() + geom_smooth(span=0.2)+
+  scale_x_datetime(date_breaks='1 month',date_label ='%d-%m')+
+  labs(y='NDVI')+
+  theme_minimal()
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](README-unnamed-chunk-3-1.png)<!-- -->
 
 Ranghetti, L. and Busetto, L. (2019). *sen2r: an R toolbox to find,
 download and preprocess Sentinel-2 data*. R package version 1.0.0. DOI:
