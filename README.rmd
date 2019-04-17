@@ -28,7 +28,7 @@ Agronomía UMayor 2019
 
 ## Reseña
 
-La praćtica de integración mediada (PIM) es una actividad parte de la malla de la carrera de Agronomía de la Universidad Mayor. En la PIM los estudiantes deben demostrar su capacidad para resolver alguna problemática relacionada a la agricultura.
+La práctica de integración mediada (PIM) es una actividad parte de la malla de la carrera de Agronomía de la Universidad Mayor. En la PIM los estudiantes deben demostrar su capacidad para resolver alguna problemática relacionada a la agricultura.
 
 En esta PIM se está realizando el monitoreo de kiwis utilizando imágenes satelitales Sentinel-2 (A/B) además de drones. Para mas información sobre Sentinel-2 pincha [acá](https://es.wikipedia.org/wiki/Sentinel-2) o también [acá](https://sentinel.esa.int/web/sentinel/missions/sentinel-2).  El objetivo de este estudio es encontrar una relación entre la radiación reflejada por la vegetación en distintas longitudes de onda con contenido de agua en la hoja y con calidad de kiwis en la cosecha.
 
@@ -37,43 +37,54 @@ Para el procesamiento de los datos se está trabajando con el software [R](https
 [Acá](/R) compartimos los script de procesamiento, análisis y descarga. Los índices vegetacionales entre agosto 2018 a `r month(Sys.Date(),label=TRUE,abbr=FALSE)` `r year(Sys.Date())` los puedes descarga en la carpeta [VIs](data/spatial/VIs). 
 
 Última actualización: `r Sys.Date()`
-
-Un ejemplo, series de imágenes de NDVI.
-
-```{r fig.width=7}
+```{r include=FALSE}
 library(stars)
 library(lubridate)
 library(viridis)
 library(ggplot2)
 
-list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
+indices <- c('NDVI','EVI','Rededge1','NBR','LCI','GVMI',
+             'NDII','NDII2','RDI','CARI','NDMI')
+
+index <- indices[4]
+
+list <- list.files(file.path('data/spatial/VIs/',index),pattern='.tif$',full.names=TRUE)
 ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
 new_list <- list[ind$ix]
 dates <- ymd(ind$x)
-ndvi <- read_stars(new_list,along='time')
-ndvi <- st_set_dimensions(ndvi,'time',values= dates)
-names(ndvi) <- 'NDVI'
+
+daysclouds <- c(1:6,8,11,14,15,19,23,24,25,32,48,49,50) #days with clouds
+vi <- read_stars(new_list[-daysclouds],along='time')
+vi <- st_set_dimensions(vi,'time',values= dates[-daysclouds])
+names(vi) <- index
 pol <- st_read('data/spatial/vectorial/cuarteles_kiwis.gpkg')
 pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
+sum <- median(as.numeric(unlist(vi[pol]*10e-5)),na.rm=TRUE)
+```
 
-ggplot() + geom_stars(data=ndvi[pol]*10e-5) +
+Un ejemplo, series de imágenes de `r index`.
+
+
+```{r fig.width=7}
+
+ggplot() + geom_stars(data=vi[pol]*10e-5) +
   coord_equal() +
   facet_wrap(~time,ncol=10) +
   theme_void() +
-  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=0.5,na.value="transparent") +
+  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=sum,na.value="transparent") +
   theme(strip.text = element_text(size=5),
         legend.position = 'bottom')
 ```
 
-Serie de tiempo de valores de NDVI promedio en el cuartel
+Serie de tiempo de valores de `r index` promedio en el cuartel
 
 ```{r fig.width=7}
-data <- data.frame(dates=as.POSIXct(dates),NDVI=st_apply(ndvi[pol],3,FUN='mean',na.rm=TRUE)$NDVI)
+data <- data.frame(dates=as.POSIXct(dates[-daysclouds]),VI=as.data.frame(st_apply(vi[pol],3,FUN='mean',na.rm=TRUE))[,2])
 
-ggplot(data,aes(dates,NDVI*10e-5)) + 
+ggplot(data,aes_string('dates','VI')) + 
   geom_point() + geom_smooth(span=0.2)+
   scale_x_datetime(date_breaks='1 month',date_label ='%d-%m')+
-  labs(y='NDVI')+
+  labs(y=index)+
   theme_minimal()
 ```
 

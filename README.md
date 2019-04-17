@@ -11,7 +11,7 @@ Monitoreo Satelital de Kiwis con Sentinel-2 Agronomía UMayor 2019
 
 ## Reseña
 
-La praćtica de integración mediada (PIM) es una actividad parte de la
+La práctica de integración mediada (PIM) es una actividad parte de la
 malla de la carrera de Agronomía de la Universidad Mayor. En la PIM los
 estudiantes deben demostrar su capacidad para resolver alguna
 problemática relacionada a la agricultura.
@@ -44,63 +44,38 @@ de datos con todos los paquetes incluidos en
 Los índices vegetacionales entre agosto 2018 a abril 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs).
 
-Última actualización: 2019-04-15
+Última actualización: 2019-04-17
 
-Un ejemplo, series de imágenes de NDVI.
+Un ejemplo, series de imágenes de NBR.
 
 ``` r
-library(stars)
-#> Loading required package: abind
-#> Loading required package: sf
-#> Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
-library(lubridate)
-library(viridis)
-#> Loading required package: viridisLite
-library(ggplot2)
 
-list <- list.files('data/spatial/VIs/NDVI/',full.names=TRUE)
-ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
-new_list <- list[ind$ix]
-dates <- ymd(ind$x)
-ndvi <- read_stars(new_list,along='time')
-ndvi <- st_set_dimensions(ndvi,'time',values= dates)
-names(ndvi) <- 'NDVI'
-pol <- st_read('data/spatial/vectorial/cuarteles_kiwis.gpkg')
-#> Reading layer `cuarteles_kiwis' from data source `/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/data/spatial/vectorial/cuarteles_kiwis.gpkg' using driver `GPKG'
-#> Simple feature collection with 1 feature and 2 fields
-#> geometry type:  POLYGON
-#> dimension:      XY
-#> bbox:           xmin: -70.9768 ymin: -34.61518 xmax: -70.97322 ymax: -34.61144
-#> epsg (SRID):    4326
-#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
-pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
-
-ggplot() + geom_stars(data=ndvi[pol]*10e-5) +
+ggplot() + geom_stars(data=vi[pol]*10e-5) +
   coord_equal() +
   facet_wrap(~time,ncol=10) +
   theme_void() +
-  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=0.5,na.value="transparent") +
+  scale_fill_gradient2(low="red", mid="yellow",high="darkgreen",midpoint=sum,na.value="transparent") +
   theme(strip.text = element_text(size=5),
         legend.position = 'bottom')
 ```
 
-![](README-unnamed-chunk-2-1.png)<!-- -->
+![](README-unnamed-chunk-3-1.png)<!-- -->
 
-Serie de tiempo de valores de NDVI promedio en el
+Serie de tiempo de valores de NBR promedio en el
 cuartel
 
 ``` r
-data <- data.frame(dates=as.POSIXct(dates),NDVI=st_apply(ndvi[pol],3,FUN='mean',na.rm=TRUE)$NDVI)
+data <- data.frame(dates=as.POSIXct(dates[-daysclouds]),VI=as.data.frame(st_apply(vi[pol],3,FUN='mean',na.rm=TRUE))[,2])
 
-ggplot(data,aes(dates,NDVI*10e-5)) + 
+ggplot(data,aes_string('dates','VI')) + 
   geom_point() + geom_smooth(span=0.2)+
   scale_x_datetime(date_breaks='1 month',date_label ='%d-%m')+
-  labs(y='NDVI')+
+  labs(y=index)+
   theme_minimal()
 #> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-![](README-unnamed-chunk-3-1.png)<!-- -->
+![](README-unnamed-chunk-4-1.png)<!-- -->
 
 Ranghetti, L. and Busetto, L. (2019). *sen2r: an R toolbox to find,
 download and preprocess Sentinel-2 data*. R package version 1.0.0. DOI:
