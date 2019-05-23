@@ -8,12 +8,14 @@ cropUpdVIs <- function(pol,dir_vis,dir_cvis,indices){
   res_vis <- summIndices(indices,dir_vis)
   res_cvis <- summIndices(indices,dir_cvis)
   
-  if(length(unique(res_vis[,2]))==1 & length(unique(res_vis[,3]))==1 &
-     length(unique(res_cvis[,2]))==1 & length(unique(res_cvis[,3]))==1){
+  if(res_cvis==0){
+    lastDate_cvis <- "20170101"
+  } else if(length(unique(res_vis[,2]))==1 & length(unique(res_vis[,3]))==1 &
+            length(unique(res_cvis[,2]))==1 & length(unique(res_cvis[,3]))==1){
     
     lastDate_cvis <- as.numeric(res_cvis[1,3])
     
-  } else {stop('error in number of files')}
+  } else {stop('error in the number of files')}
   
   pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
   

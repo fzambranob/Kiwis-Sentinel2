@@ -46,14 +46,14 @@ library(ggplot2)
 indices <- c('NDVI','EVI','Rededge1','NBR','LCI','GVMI',
              'NDII','NDII2','RDI','CARI','NDMI')
 
-index <- indices[4]
+index <- indices[2]
 
 list <- list.files(file.path('data/spatial/VIs/',index),pattern='.tif$',full.names=TRUE)
 ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
 new_list <- list[ind$ix]
 dates <- ymd(ind$x)
 
-daysclouds <- c(1:6,8,11,14,15,19,23,24,25,32,48,49,50) #days with clouds
+daysclouds <- c(1:6,8,11,14,15,19,23,24,25,32,48,49,50,52:55) #days with clouds
 vi <- read_stars(new_list[-daysclouds],along='time')
 vi <- st_set_dimensions(vi,'time',values= dates[-daysclouds])
 names(vi) <- index

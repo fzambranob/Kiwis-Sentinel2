@@ -12,7 +12,7 @@ library(raster)
 breaks <- seq(0, 1, by=0.001)
 cols <- colorRampPalette(c("red", "yellow", "darkgreen"))(length(breaks)-1)
 
-sen <- stack(list.files(dir.tiff,full.names=TRUE)[6])
+sen <- stack(list.files(dir.tiff,full.names=TRUE)[34])
 ndvi <- stack(list.files(paste0(dir.vis,'NDVI'),full.names=TRUE)[6])
 nbr <- stack(list.files(paste0(dir.vis,'NBR'),full.names=TRUE)[6])
 rededge <- stack(list.files(paste0(dir.vis,'Rededge1'),full.names=TRUE)[6])

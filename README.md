@@ -41,12 +41,12 @@ de datos con todos los paquetes incluidos en
 [tidyverse](https://www.tidyverse.org/)(Wickham 2017).
 
 [Acá](/R) compartimos los script de procesamiento, análisis y descarga.
-Los índices vegetacionales entre agosto 2018 a abril 2019 los puedes
+Los índices vegetacionales entre agosto 2018 a mayo 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs).
 
-Última actualización: 2019-04-17
+Última actualización: 2019-05-23
 
-Un ejemplo, series de imágenes de NBR.
+Un ejemplo, series de imágenes de EVI.
 
 ``` r
 
@@ -61,7 +61,7 @@ ggplot() + geom_stars(data=vi[pol]*10e-5) +
 
 ![](README-unnamed-chunk-3-1.png)<!-- -->
 
-Serie de tiempo de valores de NBR promedio en el
+Serie de tiempo de valores de EVI promedio en el
 cuartel
 
 ``` r

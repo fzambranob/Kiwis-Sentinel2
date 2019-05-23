@@ -33,10 +33,21 @@ data <- indices %>%
   }) %>% 
   reduce(rbind)
 
+#summarizing for all the points
+
+data %>% select(-`Hilera 3`) %>%  gather(sensor,value,-time,-index) %>% 
+  ggplot(.,aes(sensor,value,fill=sensor)) +
+  geom_boxplot() 
+
+  
 #Extracting VIs in the trees with Zim sensor
 dataZim <- data[,39:45]
 
-dataZim %>% gather(sensor,pressure,-time,-index) %>% 
+dataZim %>% gather(sensor,value,-time,-index) %>% 
   ggplot(.,aes(time,pressure,colour=sensor)) +
   geom_point()+geom_line() +
   facet_grid(index~sensor,scale='free')
+
+dataZim %>% gather(sensor,value,-time,-index) %>% 
+  ggplot(.,aes(sensor,value,fill=sensor)) +
+  geom_boxplot()
