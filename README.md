@@ -44,7 +44,7 @@ de datos con todos los paquetes incluidos en
 Los índices vegetacionales entre agosto 2018 a mayo 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs).
 
-Última actualización: 2019-05-23
+Última actualización: 2019-05-27
 
 Un ejemplo, series de imágenes de EVI.
 
