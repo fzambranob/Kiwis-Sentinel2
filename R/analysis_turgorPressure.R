@@ -4,14 +4,13 @@
 
 dir <- 'data/measures/turgorPressure/'
 
-data <- read.csv(file.path(dir,'zim_20190101_to_20190417.csv'))
+data <- read.csv(file.path(dir,'zim_20190201_to_20190530.csv'))
 
-colNames <- paste0(substr(names(data)[2:40],1,1),'.',regmatches(names(data),regexpr("[0-9]{4}.[0-9]{1}",names(data))))
+colNames <- paste0(substr(names(data)[2:34],1,1),'.',regmatches(names(data),regexpr("[0-9]{4}.[0-9]{1}",names(data))))
 
 names(data)[2:dim(data)[2]] <- colNames
 
 names(data)[1] <- 'time'
-
 
 library(lubridate)
 
@@ -20,25 +19,32 @@ data$time <- with_tz(ymd_hms(data$time,tz = "GMT"),'America/La_Paz')
 #dates sentinel-2 data
 
 datesS2 <- seq(ymd_hms('2018-02-08 12:00:00',tz='America/La_Paz'),
-               ymd_hms('2019-04-14 12:00:00',tz='America/La_Paz'),by = '5 day')
+               ymd_hms('2019-05-30 12:00:00',tz='America/La_Paz'),by = '5 day')
 
 # subset of the data just for pressure
 
 dataY <- data[,c(1,grep('^Y.',names(data)))]
 
 library(tidyverse)
+
+dataY %>% gather(sensor,potencial,-time) %>% 
+  group_by(sensor,time=floor_date(time, "1 hour")) %>%
+  summarize(potencial=mean(potencial,na.rm=TRUE)) %>% 
+  ggplot(.,aes(time,potencial)) + geom_point() +
+  facet_wrap(~sensor)
+
 dataY %>% gather(sensor,potencial,-time) %>% 
   group_by(sensor,time=floor_date(time, "1 hour")) %>%
   summarize(potencial=mean(potencial,na.rm=TRUE)) %>% 
   spread(sensor,potencial) %>% 
-  select(c(1,3,5,7,10,12,17,18,21,25,28,29,31,32,33)) -> dataY
+  select(c(1,2,4,6,9,12,15,18,20,22,25,28,29)) -> dataY
 
 dataY %>% gather(sensor,potencial,-time) %>% 
   ggplot(.,aes(time,potencial)) + geom_line() +
   facet_wrap(~sensor)
 
 dataY %>% gather(sensor,potencial,-time) %>% 
-  filter(sensor=='Y.1004.2.1') %>% 
+  filter(sensor=='Y.1004.1') %>% 
   ggplot(.,aes(time,potencial)) + geom_point() + geom_line()
   
 #extracting turgor pressure at 12:00pm each five days

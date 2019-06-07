@@ -1,0 +1,52 @@
+promedio_peso_fresco <- tapply(Database_PIM_Calidad_Kiwis$PESO.FRESCO, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, mean)
+
+mediana_peso_fresco <- tapply(Database_PIM_Calidad_Kiwis$PESO.FRESCO, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, median)
+
+desvest_peso_fresco <- tapply(Database_PIM_Calidad_Kiwis$PESO.FRESCO, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, sd)
+
+coefvar_peso_fresco <- (desvest_peso_fresco/promedio_peso_fresco)*100
+
+promedio_calibre_ecuatorial <- tapply(Database_PIM_Calidad_Kiwis$CALIBRE_ECUATORIAL, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, mean)
+
+mediana_calibre_ecuatorial <- tapply(Database_PIM_Calidad_Kiwis$CALIBRE_ECUATORIAL, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, median)
+
+desvest_calibre_ecuatorial <- tapply(Database_PIM_Calidad_Kiwis$CALIBRE_ECUATORIAL, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, sd)
+
+coefvar_calibre_ecuatorial <- (desvest_calibre_ecuatorial/promedio_calibre_ecuatorial)*100
+
+promedio_calibre_longitudinal <- tapply(Database_PIM_Calidad_Kiwis$CALIBRE_LONGITUDINAL, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, mean)
+
+mediana_calibre_longitudinal <- tapply(Database_PIM_Calidad_Kiwis$CALIBRE_LONGITUDINAL, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, median)
+
+desvest_calibre_longitudinal <- tapply(Database_PIM_Calidad_Kiwis$CALIBRE_LONGITUDINAL, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, sd)
+
+coefvar_calibre_longitudinal <- (desvest_calibre_longitudinal/promedio_calibre_longitudinal)*100
+
+promedio_firmeza <- tapply(Database_PIM_Calidad_Kiwis$FIRMEZA, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, mean)
+
+mediana_firmeza <- tapply(Database_PIM_Calidad_Kiwis$FIRMEZA, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, median)
+
+desvest_firmeza <- tapply(Database_PIM_Calidad_Kiwis$FIRMEZA, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, sd)
+
+coefvar_firmeza <- (desvest_firmeza/promedio_firmeza)*100
+
+promedio_brix <- tapply(Database_PIM_Calidad_Kiwis$X.BRIX, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, mean)
+
+mediana_brix <- tapply(Database_PIM_Calidad_Kiwis$X.BRIX, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, median)
+
+desvest_brix <- tapply(Database_PIM_Calidad_Kiwis$X.BRIX, Database_PIM_Calidad_Kiwis$X.U.FEFF.descrip, sd)
+
+coefvar_brix <- (desvest_brix/promedio_brix)*100
+
+
+tabla_resumen <- cbind(promedio_brix, promedio_calibre_ecuatorial, promedio_calibre_longitudinal, promedio_firmeza , promedio_peso_fresco,
+                       mediana_brix , mediana_calibre_ecuatorial, mediana_calibre_longitudinal, mediana_firmeza , mediana_peso_fresco,
+                       desvest_brix, desvest_calibre_ecuatorial, desvest_calibre_longitudinal , desvest_firmeza , desvest_peso_fresco,
+                       coefvar_brix , coefvar_calibre_longitudinal , coefvar_firmeza , coefvar_peso_fresco)
+
+
+write.csv(tabla_resumen, file = "Tabla resumen datos cosecha PIM KIWI.csv")
+
+
+
+
