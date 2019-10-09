@@ -3,7 +3,7 @@
 # April 2019
 
 in.vis <- 'data/spatial/VIs/'
-in.gpkg <- 'data/spatial/vectorial/'
+in.gpkg <- 'data/spatial/vectorial/puntosMuestreo/'
 
 indices <- list.files(in.vis)
 
@@ -13,8 +13,11 @@ library(purrr)
 library(lubridate)
 library(tidyverse)
 
-pts <- st_read(file.path(in.gpkg,'puntos_de_muestreo.gpkg'))
+pts <- st_read(file.path(in.gpkg,'puntosmuestreo.shp'))
 pts <- st_transform(pts,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+names <- pts$descrip
+
 
 data <- indices %>% 
   map(function(index) {
@@ -25,13 +28,14 @@ data <- indices %>%
     vi <- read_stars(new_list,along='time')
     vi <- st_set_dimensions(vi,'time',values= dates)
     final <- as.data.frame(st_join(pts,st_as_sf(st_as_stars(vi[pts]))))
-    final <- as.data.frame(t(final[,c(-1,-53)]))
-    names(final) <- names
+    final <- as.data.frame(t(final[,c(-1:-4,-72)]))
     final$index <- index
-    final$time <- dates
+    names(final) <- c(as.character(names),'index')
     return(final)
   }) %>% 
   reduce(rbind)
+
+saveRDS(data,'data/rds/data_indices_arboles.rds')
 
 #summarizing for all the points
 
@@ -51,3 +55,4 @@ dataZim %>% gather(sensor,value,-time,-index) %>%
 dataZim %>% gather(sensor,value,-time,-index) %>% 
   ggplot(.,aes(sensor,value,fill=sensor)) +
   geom_boxplot()
+

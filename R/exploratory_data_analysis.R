@@ -21,7 +21,7 @@ data %>% gather(variable,value,-cod,-muestra,-submuestra) -> data2
   ggplot() + geom_boxplot(data=data2,aes(muestra,value,group=muestra)) +
   facet_wrap(~variable,scales='free',nrow=1) 
 
-  data2 %>% group_by(variable) %>% mutate(value=scale(value)) %>% 
+data2 %>% group_by(variable) %>% mutate(value=scale(value)) %>% 
   ggplot(.) + geom_boxplot(aes(variable,value)) 
 
 # Leaf water potential

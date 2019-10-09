@@ -15,7 +15,7 @@ source(file.path(dir.main,'R/cropUpdVIs.R'))
 source(file.path(dir.main,'R/summIndices.R'))
 
 
-dir_raw <- '/mnt/discoHemera4TB2/data/rasters/raw/Sentinel2/OHiggins/2A/'
+dir_raw <- '/mnt/discoHemera4TB2/data/rasters/raw/ESA/Sentinel2/OHiggins/2A/'
 dir_tiffs <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/GTiff/'
 dir_vis <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/VIs/'
 dir.data <- 'data/spatial/vectorial/'

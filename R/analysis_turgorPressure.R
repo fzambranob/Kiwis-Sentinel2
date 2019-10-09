@@ -14,12 +14,12 @@ names(data)[1] <- 'time'
 
 library(lubridate)
 
-data$time <- with_tz(ymd_hms(data$time,tz = "GMT"),'America/La_Paz')
+data$time <- ymd_hms(data$time,tz =  "UTC") + hours(12)
 
 #dates sentinel-2 data
 
-datesS2 <- seq(ymd_hms('2018-02-08 12:00:00',tz='America/La_Paz'),
-               ymd_hms('2019-05-30 12:00:00',tz='America/La_Paz'),by = '5 day')
+datesS2 <- seq(ymd_hm('2018-02-08 12:00',tz='UTC'),
+               ymd_hm('2019-05-30 12:00',tz='UTC'),by = '5 day')
 
 # subset of the data just for pressure
 
@@ -46,15 +46,30 @@ dataY %>% gather(sensor,potencial,-time) %>%
 dataY %>% gather(sensor,potencial,-time) %>% 
   filter(sensor=='Y.1004.1') %>% 
   ggplot(.,aes(time,potencial)) + geom_point() + geom_line()
-  
-#extracting turgor pressure at 12:00pm each five days
-dataY %>% gather(sensor,potencial,-time) %>% 
-  filter(time%in%datesS2) %>% 
-  ggplot(.,aes(sensor,potencial)) + geom_boxplot() 
 
 dataY %>% gather(sensor,potencial,-time) %>% 
-  filter(time%in%datesS2) %>% 
-  ggplot(.,aes(time,potencial,colour=sensor)) + geom_point() + geom_line() +
+  filter(sensor=='Y.1004.1' & time > "2019-03-01 00:00:00"  & time < "2019-03-02 00:00:00") %>% 
+  ggplot(.,aes(time,potencial)) + geom_point() + geom_line()+ labs(y='Potencial de Turgor (kPa)',x='')+
+  theme_minimal()
+ggsave('potencial_turgor_zim.png',scale=0.8)
+
+#extracting turgor pressure at 12:00pm each five days
+dataY %>% gather(sensor,potencial,-time) %>% 
+  mutate(hod = format(time,'%Y-%m-%d %H:00')) %>% 
+  group_by(sensor,hod) %>% 
+  summarise(turgor = mean(potencial,na.rm=TRUE)) ->dataY
+
+names(dataY)[1:2] <- c('sensor','time')
+
+dataY %>% filter(time %in% format(datesS2,'%Y-%m-%d %H:00')) -> dataTurgor
+
+saveRDS(dataTurgor,'data/rds/data_turgor.rds')
+
+dataTurgor %>% ggplot(.,aes(sensor,turgor)) + geom_boxplot() 
+
+dataY %>% gather(sensor,turgor,-time) %>% 
+  filter(time%in%format(datesS2,'%Y-%m-%d %H:00')) %>% 
+  ggplot(.,aes(time,turgor,colour=sensor)) + geom_point() + geom_line() +
   facet_wrap(~sensor)
 
 

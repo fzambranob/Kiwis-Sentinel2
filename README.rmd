@@ -46,7 +46,7 @@ library(ggplot2)
 indices <- c('NDVI','EVI','Rededge1','NBR','LCI','GVMI',
              'NDII','NDII2','RDI','CARI','NDMI')
 
-index <- indices[2]
+index <- indices[7]
 
 list <- list.files(file.path('data/spatial/VIs/',index),pattern='.tif$',full.names=TRUE)
 ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)

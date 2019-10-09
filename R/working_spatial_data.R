@@ -19,7 +19,7 @@ daysclouds <- c(1:6,8,11,14,15,19,23,24,25,32,48,49,50,52:55) #days with clouds
 
 evi <- stack(list.files(file.path(dir.vi,'EVI'),pattern='*.tif$',full.names=TRUE)[-daysclouds])
 
-dataEVI <- data.frame(t(extract(evi,ptosJ)))
+dataEVI <- data.frame(t(raster::extract(evi,ptosJ)))
 
 names(dataEVI) <- as.character(ptosJ$name)
 dataEVI$time <- ymd(unlist(regmatches(row.names(dataEVI),gregexpr('[0-9]{8}',row.names(dataEVI)))))

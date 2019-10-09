@@ -2,12 +2,10 @@
 # by Francisco Zambrano Bigiarini (frzambra@gmail.com)
 # May 2019
 
-dir <- '/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/data/'
-
 library(tidyverse)
 
 # Quality data
-data <- read.csv2(file.path(dir,"measures/quality/quality_kiwis_measures.csv"))
+data <- read.csv2("measures/quality/quality_kiwis_measures.csv")
 
 names(data) <- c('cod','muestra','submuestra','peso_freso','cal_ecua','cal_lon','firmeza','brix')
 
@@ -15,7 +13,9 @@ data$cod <- gsub(' ','',data$cod,fixed=TRUE)
 
 
 # Leaf water potential
-data <- read.csv2(file.path(dir,"measures/potential/sholander.csv"),sep=',')
+data <- read.csv("data/measures/potential/sholander.csv",dec=',')
+saveRDS(data,'data/rds/data_cholander.rds')
+
 library(lubridate)
 data$Fecha <- dmy(data$Fecha)
 
