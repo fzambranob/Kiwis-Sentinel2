@@ -23,8 +23,8 @@ knitr::opts_chunk$set(
 <img src="img/logo_hemera.jpg" align="left" width="150px" />   <img src="img/Logo-UMAYOR.png" align="right" width="80px" />
 =======================================================================================================
 # Práctica de Integración Mediada 
-Monitoreo Satelital de Kiwis con Sentinel-2
-Agronomía UMayor 2019 
+## Estado Hídrico en Kiwis con imágenes Sentinel-2
+**Agronomía UMayor 2019**
 
 ## Reseña
 
@@ -37,6 +37,15 @@ Para el procesamiento de los datos se está trabajando con el software [R](https
 [Acá](/R) compartimos los script de procesamiento, análisis y descarga. Los índices vegetacionales entre agosto 2018 a `r month(Sys.Date(),label=TRUE,abbr=FALSE)` `r year(Sys.Date())` los puedes descarga en la carpeta [VIs](data/spatial/VIs). 
 
 Última actualización: `r Sys.Date()`
+
+## Animación variación indicadores temporada
+
+![](gifs/EVI_animation.gif)
+![](gifs/NDVI_animation.gif)
+![](gifs/NBR_animation.gif)
+![](gifs/NDII_animation.gif)
+
+## Mapas y series de tiempo
 ```{r include=FALSE}
 library(stars)
 library(lubridate)

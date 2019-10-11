@@ -7,7 +7,9 @@
 
 # Práctica de Integración Mediada
 
-Monitoreo Satelital de Kiwis con Sentinel-2 Agronomía UMayor 2019
+## Estado Hídrico en Kiwis con imágenes Sentinel-2
+
+**Agronomía UMayor 2019**
 
 ## Reseña
 
@@ -44,7 +46,14 @@ de datos con todos los paquetes incluidos en
 Los índices vegetacionales entre agosto 2018 a octubre 2019 los puedes
 descarga en la carpeta [VIs](data/spatial/VIs).
 
-Última actualización: 2019-10-09
+Última actualización: 2019-10-11
+
+## Animación variación indicadores temporada
+
+![](gifs/EVI_animation.gif) ![](gifs/NDVI_animation.gif)
+![](gifs/NBR_animation.gif) ![](gifs/NDII_animation.gif)
+
+## Mapas y series de tiempo
 
 Un ejemplo, series de imágenes de NDII.
 
