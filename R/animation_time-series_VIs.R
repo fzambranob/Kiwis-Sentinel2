@@ -12,27 +12,43 @@ library(tidyverse)
 indices <- c('NDVI','EVI','Rededge1','NBR','LCI','GVMI',
              'NDII','NDII2','RDI','CARI','NDMI')
 
+#select the indext to animate
 n <- 11
 index <- indices[n]
 
+#list files of the Sentinel-2 derived indices (data not provided here)
 list <- list.files(file.path('data/spatial/VIs/',index),pattern='.tif$',full.names=TRUE)
 ind <- sort(as.numeric(regmatches(list,regexpr("[0-9]{8}",list))),index.return=TRUE)
+
+#create dates
 new_list <- list[ind$ix]
 dates <- ymd(ind$x)
 
-daysclouds <- c(1:6,8,11,14,15,19,23,24,25,32,48,49,50,52:55,79:80,84:85) #days with clouds
+#days with clouds where removed from the time series
+daysclouds <- c(1:6,8,11,14,15,19,23,24,25,32,48,49,50,52:55,79:80,84:85,87:88,91,96) #days with clouds
+
+# loading time series of Sentinel-2 data
 vi <- stack(new_list[-daysclouds])
+
+#reading polygons (geopackage format) for the kiwis farm
 pol <- st_read('data/spatial/vectorial/cuarteles_kiwis.gpkg')
 pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
 viC <- crop(vi,pol)*10e-5
 
+# auxiliary raster data to fill the tiome series for the second season
 aux<- subset(viC,1)
 aux[] <- NA
 auxs <- stack(lapply(1:40, function(i) aux)) 
-names(auxs) <- format(seq.Date(ymd(20191021),length.out=40,by=5),"%Y%m%d")
+names(auxs) <- format(seq.Date(ymd(20191125),length.out=40,by=5),"%Y%m%d")
+
+#stacking all the raster time series data
 viC <- stack(viC, auxs)
+
+# converting to point and to data.frame to plot with ggplot
 viCP <- rasterToPoints(viC)
 viCP <- as.data.frame(viCP)
+
+# making tidy
 viCP %>% gather(index,value,-x,-y) -> data
 
 data$dates <- ymd(regmatches(data$index,regexpr('[0-9]{8}',data$index)))
@@ -86,6 +102,7 @@ map1_mgif<-image_read(map1_gif)
 map2_mgif<-image_read(map2_gif)
 ts_mgif<-image_read(ts_gif)
 
+library(magick)
 new_gif <- image_append(c(map1_mgif[1], map2_mgif[1],ts_mgif[1]))
 
 for(i in 2:100){

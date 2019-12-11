@@ -5,6 +5,8 @@
 cropUpdVIs <- function(pol,dir_vis,dir_cvis,indices){
   
   require(purrr)
+  require(dplyr)
+  
   res_vis <- summIndices(indices,dir_vis)
   res_cvis <- summIndices(indices,dir_cvis)
   

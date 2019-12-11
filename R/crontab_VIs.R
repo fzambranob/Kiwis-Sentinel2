@@ -2,7 +2,7 @@
 # by Francisco Zambrano Bigiarini (frzambra@gmail.com)
 # April 2019
 
-dir.main <- '/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/'
+dir.main <- '/mnt/Respaldo/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/'
 
 require(lubridate)
 require(sf)
@@ -15,11 +15,11 @@ source(file.path(dir.main,'R/cropUpdVIs.R'))
 source(file.path(dir.main,'R/summIndices.R'))
 
 
-dir_raw <- '/mnt/discoHemera4TB2/data/rasters/raw/ESA/Sentinel2/OHiggins/2A/'
-dir_tiffs <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/GTiff/'
-dir_vis <- '/mnt/discoHemera4TB2/data/rasters/Procesados/Sentinel2/VIs/'
-dir.data <- 'data/spatial/vectorial/'
-dir_cvis <- '/mnt/discoHemera4TB1/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/data/spatial/VIs/'
+dir_raw <- '/media/francisco/HDD4TB_2/data/rasters/raw/ESA/Sentinel2/OHiggins/2A/'
+dir_tiffs <- '/media/francisco/HDD4TB_2/data/rasters/Procesados/Sentinel2/GTiff/'
+dir_vis <- '/media/francisco/HDD4TB_2/data/rasters/Procesados/Sentinel2/VIs/'
+dir.data <- '/data/spatial/vectorial/'
+dir_cvis <- '/mnt/Respaldo/UMayor/Agronomia/PIM/2019-I/Kiwis-Sentinel2/data/spatial/VIs/'
 
 indices <- c('NDVI','EVI','Rededge1','NBR','LCI','GVMI',
              'NDII','NDII2','RDI','CARI','NDMI')

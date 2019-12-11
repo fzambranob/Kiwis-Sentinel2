@@ -23,7 +23,7 @@ updateVIs <- function(dir_tiffs,dir_vis,indices){
     
     s2_calcindices(file.path(dir_tiffs,currFiles[ids]),outdir = dir_vis,indices=indices)
   } else {
-    stop('The number of files per VIs is not equal')
+    stop('The number of files per VIs are not equal')
   }
   
 }
