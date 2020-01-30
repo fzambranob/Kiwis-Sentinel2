@@ -8,12 +8,14 @@ library(viridis)
 library(ggplot2)
 library(raster)
 library(tidyverse)
+library(magick)
+
 
 indices <- c('NDVI','EVI','Rededge1','NBR','LCI','GVMI',
              'NDII','NDII2','RDI','CARI','NDMI')
 
 #select the indext to animate
-n <- 11
+n <- 3
 index <- indices[n]
 
 #list files of the Sentinel-2 derived indices (data not provided here)
@@ -33,7 +35,8 @@ vi <- stack(new_list[-daysclouds])
 #reading polygons (geopackage format) for the kiwis farm
 pol <- st_read('data/spatial/vectorial/cuarteles_kiwis.gpkg')
 pol <- st_transform(pol,"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 ")
-viC <- crop(vi,pol)*10e-5
+pol <- st_buffer(pol,dist=-20)
+viC <- mask(vi,pol)*10e-5
 
 # auxiliary raster data to fill the tiome series for the second season
 aux<- subset(viC,1)
@@ -61,7 +64,8 @@ map1 <- data %>% filter(dates >= "2018-09-01" & dates <= "2019-05-30") %>%
   coord_equal() +
   #facet_wrap(~time,ncol=10) +
   theme_void() +
-  scale_fill_gradient2(indices[n],low="red", mid="yellow",high="darkgreen",midpoint=0,na.value="transparent") +
+  #scale_fill_gradient2(indices[n],low="red", mid="yellow",high="darkgreen",midpoint=0,na.value="transparent") +
+  scale_fill_gradientn(colours=rainbow(10),na.value="transparent") +
   theme(strip.text = element_text(size=5),
         legend.position = 'bottom',legend.text = element_text(size=5))+
   transition_time(dates) +
@@ -72,7 +76,8 @@ map2 <- data %>% filter(dates >= "2019-09-01" & dates <= "2020-05-30") %>%
   coord_equal() +
   #facet_wrap(~time,ncol=10) +
   theme_void() +
-  scale_fill_gradient2(indices[n],low="red", mid="yellow",high="darkgreen",midpoint=0,na.value="transparent") +
+  #scale_fill_gradient2(indices[n],low="red", mid="yellow",high="darkgreen",midpoint=0,na.value="transparent") +
+  scale_fill_gradientn(colours=rainbow(10),na.value="transparent") +
   theme(strip.text = element_text(size=5),
         legend.position = 'bottom',legend.text = element_text(size=5))+
   transition_time(dates) +
@@ -102,7 +107,6 @@ map1_mgif<-image_read(map1_gif)
 map2_mgif<-image_read(map2_gif)
 ts_mgif<-image_read(ts_gif)
 
-library(magick)
 new_gif <- image_append(c(map1_mgif[1], map2_mgif[1],ts_mgif[1]))
 
 for(i in 2:100){
